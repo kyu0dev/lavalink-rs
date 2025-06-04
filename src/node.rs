@@ -326,14 +326,14 @@ impl Node {
                 ed.dispatch(player_update_event, |e| e.player_update).await;
             }
             "stats" => {
+                let event: events::Stats = serde_json::from_value(base_event).unwrap();
+                let session_id = self_node.session_id.load_full();
+
+                self_node.cpu.store(Arc::new(event.cpu.clone()));
+                self_node.memory.store(Arc::new(event.memory.clone()));
+                
                 #[cfg(feature = "python")]
                 {
-                    let event: events::Stats = serde_json::from_value(base_event).unwrap();
-                    let session_id = self_node.session_id.load_full();
-
-                    self_node.cpu.store(Arc::new(event.cpu.clone()));
-                    self_node.memory.store(Arc::new(event.memory.clone()));
-
                     if let Some(handler) = &self_node.events.event_handler {
                         handler
                             .event_stats(
@@ -352,11 +352,9 @@ impl Node {
                             )
                             .await;
                     }
-
-                    ed.dispatch(event, |e| e.stats).await;
                 }
-                #[cfg(not(feature = "python"))]
-                ed.parse_and_dispatch(base_event, |e| e.stats).await;
+                
+                ed.dispatch(event, |e| e.stats).await;
             }
             "event" => match base_event.get("type").unwrap().as_str().unwrap() {
                 "TrackStartEvent" => {
