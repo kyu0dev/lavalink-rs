@@ -106,15 +106,18 @@ optional = true
 
 [dependencies.songbird-dep]
 package = "songbird"
-version = "0.4"
+git = "https://github.com/serenity-rs/songbird"
+branch = "serenity-next"
 default-features = false
 optional = true
 
 [dependencies.serenity-dep]
 package = "serenity"
-version = "0.12"
+git = "https://github.com/serenity-rs/serenity"
+branch = "next"
 default-features = false
 optional = true
+
 
 [dependencies.twilight-model]
 version = "0.16"
