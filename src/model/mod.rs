@@ -127,21 +127,21 @@ use serenity_dep::model::id::{
 #[cfg(feature = "serenity")]
 impl From<SerenityUserId> for UserId {
     fn from(id: SerenityUserId) -> UserId {
-        UserId(id.get().into())
+        UserId(id.get().get())
     }
 }
 
 #[cfg(feature = "serenity")]
 impl From<SerenityGuildId> for GuildId {
     fn from(id: SerenityGuildId) -> GuildId {
-        GuildId(id.get().into())
+        GuildId(id.get().get())
     }
 }
 
 #[cfg(feature = "serenity")]
 impl From<SerenityChannelId> for ChannelId {
     fn from(id: SerenityChannelId) -> ChannelId {
-        ChannelId(id.get().into())
+        ChannelId(id.get().get())
     }
 }
 
